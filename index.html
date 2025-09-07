@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting Cycle Simulator - Complete Business Month Experience</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <meta name="description" content="Interactive accounting cycle simulator for learning business transactions, journal entries, and financial statements">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-container">
+        <div class="loader"></div>
+        <h2>Loading Accounting Cycle Simulator...</h2>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>📊 Accounting Cycle Simulator</h1>
+                <span class="version">v1.0</span>
+            </div>
+            <nav class="main-navigation">
+                <button id="nav-company" class="nav-btn">Company Setup</button>
+                <button id="nav-transactions" class="nav-btn">Transactions</button>
+                <button id="nav-journal" class="nav-btn">Journal</button>
+                <button id="nav-ledger" class="nav-btn">Ledger</button>
+                <button id="nav-trial-balance" class="nav-btn">Trial Balance</button>
+                <button id="nav-statements" class="nav-btn">Statements</button>
+                <button id="nav-progress" class="nav-btn">Progress</button>
+            </nav>
+            <div class="progress-indicator">
+                <span id="current-day">Day 1</span>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <span id="progress-percentage">0%</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application Container -->
+    <main class="app-container">
+        <!-- Welcome Screen -->
+        <section id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <h2 class="animate__animated animate__fadeInDown">Welcome to the Accounting Cycle Simulator</h2>
+                <p class="subtitle animate__animated animate__fadeInUp">Experience a complete month of business operations and master the accounting cycle</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card animate__animated animate__fadeInLeft">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Virtual Company</h3>
+                        <p>Choose from three business types and manage real accounting scenarios</p>
+                    </div>
+                    <div class="feature-card animate__animated animate__fadeInUp">
+                        <div class="feature-icon">📝</div>
+                        <h3>Interactive Learning</h3>
+                        <p>Process transactions with guided journal entries and T-accounts</p>
+                    </div>
+                    <div class="feature-card animate__animated animate__fadeInRight">
+                        <div class="feature-icon">📊</div>
+                        <h3>Financial Statements</h3>
+                        <p>Prepare complete financial statements and analyze business performance</p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="start-tutorial" class="btn btn-secondary">Take Tutorial</button>
+                    <button id="start-simulation" class="btn btn-primary">Start Simulation</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Company Setup Screen -->
+        <section id="company-setup-screen" class="screen">
+            <div class="screen-header">
+                <h2>Select Your Virtual Company</h2>
+                <p>Choose a business type to begin your accounting simulation</p>
+            </div>
+            
+            <div class="company-selection">
+                <div class="company-card" data-company="coffee">
+                    <div class="company-image">☕</div>
+                    <h3>Campus Coffee Shop</h3>
+                    <p>A small coffee shop near campus serving students and faculty</p>
+                    <ul class="company-features">
+                        <li>Daily cash sales</li>
+                        <li>Inventory management</li>
+                        <li>Simple service revenue</li>
+                    </ul>
+                    <button class="btn btn-outline select-company">Select Business</button>
+                </div>
+
+                <div class="company-card" data-company="tutoring">
+                    <div class="company-image">📚</div>
+                    <h3>Local Tutoring Service</h3>
+                    <p>Educational tutoring service with multiple instructors</p>
+                    <ul class="company-features">
+                        <li>Service-based revenue</li>
+                        <li>Accounts receivable</li>
+                        <li>Payroll management</li>
+                    </ul>
+                    <button class="btn btn-outline select-company">Select Business</button>
+                </div>
+
+                <div class="company-card" data-company="retail">
+                    <div class="company-image">🛍️</div>
+                    <h3>Small Retail Store</h3>
+                    <p>Local retail store selling various consumer products</p>
+                    <ul class="company-features">
+                        <li>Complex inventory</li>
+                        <li>Credit transactions</li>
+                        <li>Full accounting cycle</li>
+                    </ul>
+                    <button class="btn btn-outline select-company">Select Business</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chart of Accounts Screen -->
+        <section id="chart-accounts-screen" class="screen">
+            <div class="screen-header">
+                <h2>Chart of Accounts</h2>
+                <p>Review your company's chart of accounts and starting balances</p>
+            </div>
+            
+            <div class="accounts-container">
+                <div class="accounts-section">
+                    <h3>Assets</h3>
+                    <div id="assets-accounts" class="account-list"></div>
+                </div>
+                
+                <div class="accounts-section">
+                    <h3>Liabilities</h3>
+                    <div id="liabilities-accounts" class="account-list"></div>
+                </div>
+                
+                <div class="accounts-section">
+                    <h3>Equity</h3>
+                    <div id="equity-accounts" class="account-list"></div>
+                </div>
+                
+                <div class="accounts-section">
+                    <h3>Revenue</h3>
+                    <div id="revenue-accounts" class="account-list"></div>
+                </div>
+                
+                <div class="accounts-section">
+                    <h3>Expenses</h3>
+                    <div id="expenses-accounts" class="account-list"></div>
+                </div>
+            </div>
+            
+            <div class="balance-sheet-preview">
+                <h3>Starting Balance Sheet</h3>
+                <div id="balance-sheet-summary" class="financial-summary"></div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="continue-to-simulation" class="btn btn-primary">Continue to Simulation</button>
+            </div>
+        </section>
+
+        <!-- Daily Transaction Screen -->
+        <section id="transaction-screen" class="screen">
+            <div class="day-header">
+                <h2>Day <span id="current-day-number">1</span> - <span id="current-week-phase">Basic Cash Transactions</span></h2>
+                <div class="day-objectives">
+                    <h3>Today's Learning Objectives:</h3>
+                    <ul id="daily-objectives"></ul>
+                </div>
+            </div>
+            
+            <div class="transaction-workspace">
+                <div class="source-documents">
+                    <h3>Source Documents</h3>
+                    
+                    <!-- Document Upload Section -->
+                    <div class="document-upload-section">
+                        <div class="upload-tabs">
+                            <button id="tab-generated" class="upload-tab-btn active" data-tab="generated">Generated Scenarios</button>
+                            <button id="tab-upload" class="upload-tab-btn" data-tab="upload">Upload Document</button>
+                        </div>
+                        
+                        <!-- Generated Documents Tab -->
+                        <div id="generated-documents" class="upload-tab-content active">
+                            <div class="scenario-selector">
+                                <label for="scenario-select">Select a business scenario:</label>
+                                <select id="scenario-select">
+                                    <option value="">Choose a scenario...</option>
+                                </select>
+                                <button id="load-scenario" class="btn btn-outline">Load Scenario</button>
+                            </div>
+                            <div id="document-viewer" class="document-container"></div>
+                        </div>
+                        
+                        <!-- Upload Documents Tab -->
+                        <div id="upload-documents" class="upload-tab-content">
+                            <div class="file-upload-area">
+                                <div class="upload-dropzone" id="upload-dropzone">
+                                    <div class="upload-icon">📎</div>
+                                    <p class="upload-text">Drag and drop your document here</p>
+                                    <p class="upload-subtext">or click to browse files</p>
+                                    <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png,.gif,.doc,.docx,.txt" multiple hidden>
+                                    <div class="supported-formats">
+                                        <small>Supported formats: PDF, Images (JPG, PNG, GIF), Word documents, Text files</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="uploaded-files" id="uploaded-files"></div>
+                            </div>
+                            
+                            <div class="document-analysis-tools">
+                                <h4>Document Analysis Tools</h4>
+                                <div class="analysis-buttons">
+                                    <button id="extract-text" class="btn btn-outline">Extract Text</button>
+                                    <button id="identify-accounts" class="btn btn-outline">Identify Accounts</button>
+                                    <button id="suggest-amounts" class="btn btn-outline">Suggest Amounts</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transaction-analysis">
+                    <h3>Transaction Analysis</h3>
+                    <div class="analysis-questions">
+                        <div class="question-item">
+                            <label>Which accounts are affected?</label>
+                            <div id="account-selector" class="account-selector"></div>
+                        </div>
+                        <div class="question-item">
+                            <label>What is the transaction amount?</label>
+                            <input type="number" id="transaction-amount" step="0.01" placeholder="0.00">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="create-journal-entry" class="btn btn-primary">Create Journal Entry</button>
+                <button id="skip-transaction" class="btn btn-secondary">Skip for Now</button>
+            </div>
+        </section>
+
+        <!-- Journal Entry Screen -->
+        <section id="journal-screen" class="screen">
+            <div class="screen-header">
+                <h2>Journal Entry Builder</h2>
+                <p>Record your business transactions with guided assistance</p>
+            </div>
+            
+            <div class="journal-workspace">
+                <div class="t-accounts-section">
+                    <h3>T-Accounts Preview</h3>
+                    <div id="t-accounts-container" class="t-accounts-grid"></div>
+                </div>
+                
+                <div class="journal-entry-section">
+                    <h3>Journal Entry</h3>
+                    <div class="journal-entry-form">
+                        <div class="entry-header">
+                            <label for="entry-date">Date:</label>
+                            <input type="date" id="entry-date">
+                            <label for="entry-reference">Reference:</label>
+                            <input type="text" id="entry-reference" placeholder="REF001">
+                        </div>
+                        
+                        <table class="journal-entry-table">
+                            <thead>
+                                <tr>
+                                    <th>Account</th>
+                                    <th>Description</th>
+                                    <th>Debit</th>
+                                    <th>Credit</th>
+                                </tr>
+                            </thead>
+                            <tbody id="journal-entry-rows">
+                            </tbody>
+                        </table>
+                        
+                        <div class="entry-totals">
+                            <div>Total Debits: $<span id="total-debits">0.00</span></div>
+                            <div>Total Credits: $<span id="total-credits">0.00</span></div>
+                            <div class="balance-check">
+                                <span id="balance-status" class="balance-indicator">Not Balanced</span>
+                            </div>
+                        </div>
+                        
+                        <div class="entry-actions">
+                            <button id="add-journal-row" class="btn btn-outline">Add Row</button>
+                            <button id="post-entry" class="btn btn-primary">Post to Ledger</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ledger Screen -->
+        <section id="ledger-screen" class="screen">
+            <div class="screen-header">
+                <h2>General Ledger</h2>
+                <p>View account balances and transaction history</p>
+            </div>
+            
+            <div class="ledger-controls">
+                <select id="ledger-account-filter">
+                    <option value="">All Accounts</option>
+                </select>
+                <input type="text" id="ledger-search" placeholder="Search transactions...">
+            </div>
+            
+            <div class="ledger-container">
+                <div id="ledger-accounts" class="ledger-grid"></div>
+            </div>
+        </section>
+
+        <!-- Trial Balance Screen -->
+        <section id="trial-balance-screen" class="screen">
+            <div class="screen-header">
+                <h2>Trial Balance</h2>
+                <p>Verify that debits equal credits</p>
+            </div>
+            
+            <div class="trial-balance-container">
+                <table class="trial-balance-table">
+                    <thead>
+                        <tr>
+                            <th>Account Code</th>
+                            <th>Account Name</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trial-balance-rows">
+                    </tbody>
+                    <tfoot>
+                        <tr class="totals-row">
+                            <td colspan="2"><strong>TOTALS</strong></td>
+                            <td id="trial-balance-debits"><strong>$0.00</strong></td>
+                            <td id="trial-balance-credits"><strong>$0.00</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+                <div class="balance-verification">
+                    <div id="balance-check-result" class="balance-check-display"></div>
+                </div>
+            </div>
+            
+            <div class="adjustment-section">
+                <h3>Adjusting Entries</h3>
+                <div class="adjustment-types">
+                    <button class="adjustment-btn" data-type="prepaid">Prepaid Expenses</button>
+                    <button class="adjustment-btn" data-type="accrued-expense">Accrued Expenses</button>
+                    <button class="adjustment-btn" data-type="accrued-revenue">Accrued Revenue</button>
+                    <button class="adjustment-btn" data-type="deferred-revenue">Deferred Revenue</button>
+                    <button class="adjustment-btn" data-type="depreciation">Depreciation</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Financial Statements Screen -->
+        <section id="statements-screen" class="screen">
+            <div class="screen-header">
+                <h2>Financial Statements</h2>
+                <p>Prepare and analyze your company's financial statements</p>
+            </div>
+            
+            <div class="statements-tabs">
+                <button class="tab-btn active" data-statement="income">Income Statement</button>
+                <button class="tab-btn" data-statement="balance">Balance Sheet</button>
+                <button class="tab-btn" data-statement="cash-flow">Cash Flow Statement</button>
+            </div>
+            
+            <div class="statement-container">
+                <div id="income-statement" class="statement-content active">
+                    <div class="statement-header">
+                        <h3><span id="company-name-income">Company Name</span></h3>
+                        <h4>Income Statement</h4>
+                        <p>For the Month Ended <span id="statement-date"></span></p>
+                    </div>
+                    <div class="statement-body" id="income-statement-body"></div>
+                </div>
+                
+                <div id="balance-sheet" class="statement-content">
+                    <div class="statement-header">
+                        <h3><span id="company-name-balance">Company Name</span></h3>
+                        <h4>Balance Sheet</h4>
+                        <p>As of <span id="balance-date"></span></p>
+                    </div>
+                    <div class="statement-body" id="balance-sheet-body"></div>
+                </div>
+                
+                <div id="cash-flow-statement" class="statement-content">
+                    <div class="statement-header">
+                        <h3><span id="company-name-cashflow">Company Name</span></h3>
+                        <h4>Statement of Cash Flows</h4>
+                        <p>For the Month Ended <span id="cashflow-date"></span></p>
+                    </div>
+                    <div class="statement-body" id="cash-flow-body"></div>
+                </div>
+            </div>
+            
+            <div class="statement-actions">
+                <button id="export-statements" class="btn btn-outline">Export to PDF</button>
+                <button id="analyze-statements" class="btn btn-primary">Analyze Performance</button>
+            </div>
+        </section>
+
+        <!-- Progress Screen -->
+        <section id="progress-screen" class="screen">
+            <div class="screen-header">
+                <h2>Learning Progress</h2>
+                <p>Track your mastery of accounting concepts</p>
+            </div>
+            
+            <div class="progress-dashboard">
+                <div class="progress-stats">
+                    <div class="stat-card">
+                        <h3>Days Completed</h3>
+                        <div class="stat-value"><span id="days-completed">0</span>/30</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Accuracy Rate</h3>
+                        <div class="stat-value"><span id="accuracy-rate">0</span>%</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Concepts Mastered</h3>
+                        <div class="stat-value"><span id="concepts-mastered">0</span>/15</div>
+                    </div>
+                </div>
+                
+                <div class="mastery-progress">
+                    <h3>Concept Mastery</h3>
+                    <div id="mastery-indicators" class="mastery-grid"></div>
+                </div>
+                
+                <div class="achievements">
+                    <h3>Achievements</h3>
+                    <div id="achievement-badges" class="badge-container"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Container -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Help System -->
+    <div id="help-system" class="help-container">
+        <button id="help-toggle" class="help-btn">?</button>
+        <div id="help-content" class="help-panel">
+            <div class="help-header">
+                <h3>Quick Help</h3>
+                <button id="help-close">&times;</button>
+            </div>
+            <div class="help-body">
+                <div class="help-section">
+                    <h4>Navigation</h4>
+                    <p>Use the top navigation to move between different sections of the simulator.</p>
+                </div>
+                <div class="help-section">
+                    <h4>Journal Entries</h4>
+                    <p>Remember: Debits increase assets and expenses, Credits increase liabilities, equity, and revenue.</p>
+                </div>
+                <div class="help-section">
+                    <h4>T-Accounts</h4>
+                    <p>Visual representations help you understand how transactions affect account balances.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/company-data.js"></script>
+    <script src="js/transaction-engine.js"></script>
+    <script src="js/journal-system.js"></script>
+    <script src="js/ledger-manager.js"></script>
+    <script src="js/statements-builder.js"></script>
+    <script src="js/progress-tracker.js"></script>
+    <script src="js/storage-manager.js"></script>
+    <script src="js/document-manager.js"></script>
+</body>
+</html>
