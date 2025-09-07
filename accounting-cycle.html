@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Accounting Cycle Simulator - Complete Business Month Experience</title>
+    <link rel="stylesheet" href="accounting-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>📚 Accounting Cycle Simulator</h1>
+                    <p class="tagline">Experience a complete month of business operations</p>
+                </div>
+                <div class="progress-section">
+                    <div class="cycle-progress">
+                        <div class="progress-ring">
+                            <svg class="progress-ring-svg">
+                                <circle class="progress-ring-circle" cx="30" cy="30" r="25"></circle>
+                            </svg>
+                            <div class="progress-text">
+                                <span id="progress-day">Day 1</span>
+                                <span id="progress-week">Week 1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="student-stats">
+                        <div class="stat-item">
+                            <span class="stat-value" id="transactions-completed">0</span>
+                            <span class="stat-label">Transactions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="accuracy-rate">100</span>
+                            <span class="stat-label">Accuracy %</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="mastery-score">0</span>
+                            <span class="stat-label">Mastery Score</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Navigation -->
+        <nav class="main-navigation">
+            <div class="nav-container">
+                <button class="nav-tab active" data-section="setup">🏢 Company Setup</button>
+                <button class="nav-tab" data-section="simulation">📅 Daily Operations</button>
+                <button class="nav-tab" data-section="journal">📝 Journal Entries</button>
+                <button class="nav-tab" data-section="ledger">📊 General Ledger</button>
+                <button class="nav-tab" data-section="trial-balance">⚖️ Trial Balance</button>
+                <button class="nav-tab" data-section="adjustments">🔧 Adjustments</button>
+                <button class="nav-tab" data-section="statements">📋 Financial Statements</button>
+                <button class="nav-tab" data-section="review">🎯 Review & Analysis</button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Company Setup Section -->
+            <section id="setup" class="content-section active">
+                <div class="section-header">
+                    <h2>🏢 Virtual Company Setup</h2>
+                    <p>Choose your business and begin your accounting cycle journey</p>
+                </div>
+
+                <div class="company-selection">
+                    <div class="selection-intro">
+                        <h3>Choose Your Business Adventure</h3>
+                        <p>Each company provides a different learning experience with unique transactions and challenges.</p>
+                    </div>
+
+                    <div class="company-options">
+                        <div class="company-card" data-company="coffee">
+                            <div class="company-icon">☕</div>
+                            <h4>Campus Coffee Shop</h4>
+                            <p class="company-description">Daily cash sales, inventory management, and service operations</p>
+                            <div class="learning-focus">
+                                <h5>You'll Learn:</h5>
+                                <ul>
+                                    <li>Cash vs. credit transactions</li>
+                                    <li>Inventory and COGS tracking</li>
+                                    <li>Daily revenue recognition</li>
+                                    <li>Operating expense management</li>
+                                </ul>
+                            </div>
+                            <button class="select-company-btn">Start Coffee Shop</button>
+                        </div>
+
+                        <div class="company-card" data-company="tutoring">
+                            <div class="company-icon">🎓</div>
+                            <h4>Local Tutoring Service</h4>
+                            <p class="company-description">Service revenue, accounts receivable, and professional operations</p>
+                            <div class="learning-focus">
+                                <h5>You'll Learn:</h5>
+                                <ul>
+                                    <li>Service revenue recognition</li>
+                                    <li>Accounts receivable management</li>
+                                    <li>Accrued revenue concepts</li>
+                                    <li>Professional service accounting</li>
+                                </ul>
+                            </div>
+                            <button class="select-company-btn">Start Tutoring Service</button>
+                        </div>
+
+                        <div class="company-card" data-company="retail">
+                            <div class="company-icon">🛍️</div>
+                            <h4>Small Retail Store</h4>
+                            <p class="company-description">Merchandise sales, complex inventory, and retail operations</p>
+                            <div class="learning-focus">
+                                <h5>You'll Learn:</h5>
+                                <ul>
+                                    <li>Merchandise inventory systems</li>
+                                    <li>Purchase and sales cycles</li>
+                                    <li>Credit card processing</li>
+                                    <li>Seasonal business patterns</li>
+                                </ul>
+                            </div>
+                            <button class="select-company-btn">Start Retail Store</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="company-details" id="company-details" style="display: none;">
+                    <div class="details-header">
+                        <h3 id="selected-company-name">Company Name</h3>
+                        <p id="selected-company-story">Company story will appear here...</p>
+                    </div>
+
+                    <div class="setup-content">
+                        <div class="chart-of-accounts-preview">
+                            <h4>📋 Chart of Accounts</h4>
+                            <div class="accounts-grid" id="accounts-preview">
+                                <!-- Accounts will be populated dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="starting-balances">
+                            <h4>💰 Starting Financial Position</h4>
+                            <div class="balance-sheet-preview" id="starting-balance-sheet">
+                                <!-- Starting balance sheet will be populated -->
+                            </div>
+                        </div>
+
+                        <div class="learning-objectives">
+                            <h4>🎯 Your Learning Objectives</h4>
+                            <div class="objectives-list" id="learning-objectives">
+                                <!-- Objectives will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setup-actions">
+                        <button class="primary-btn" id="begin-simulation-btn">Begin 30-Day Simulation</button>
+                        <button class="secondary-btn" id="change-company-btn">Choose Different Company</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Daily Operations Simulation Section -->
+            <section id="simulation" class="content-section">
+                <div class="section-header">
+                    <h2>📅 Daily Business Operations</h2>
+                    <p id="simulation-subtitle">Experience real business events and learn to analyze transactions</p>
+                </div>
+
+                <div class="simulation-dashboard">
+                    <div class="day-info">
+                        <div class="calendar-widget">
+                            <div class="calendar-header">
+                                <h3 id="current-business-day">Day 1</h3>
+                                <p id="current-date">Monday, March 1st</p>
+                            </div>
+                            <div class="week-indicator">
+                                <div class="week-phase" id="week-phase">Week 1: Basic Cash Transactions</div>
+                            </div>
+                        </div>
+                        
+                        <div class="daily-objectives">
+                            <h4>📋 Today's Objectives</h4>
+                            <div class="objectives-list" id="daily-objectives">
+                                <!-- Daily objectives will be populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transaction-workspace">
+                        <div class="current-transaction" id="current-transaction">
+                            <div class="transaction-header">
+                                <h4>Current Business Event</h4>
+                                <div class="transaction-counter">
+                                    Event <span id="event-counter">1</span> of <span id="total-events">5</span>
+                                </div>
+                            </div>
+                            
+                            <div class="business-scenario">
+                                <div class="scenario-story" id="scenario-story">
+                                    <!-- Transaction scenario will be populated -->
+                                </div>
+                                
+                                <div class="source-document" id="source-document">
+                                    <!-- Source document will be displayed -->
+                                </div>
+                            </div>
+
+                            <div class="transaction-analysis">
+                                <h5>🔍 Transaction Analysis</h5>
+                                <div class="analysis-questions">
+                                    <div class="question-item">
+                                        <label>What accounts are affected by this transaction?</label>
+                                        <div class="accounts-affected" id="accounts-affected">
+                                            <!-- Analysis interface -->
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="question-item">
+                                        <label>What is the transaction amount?</label>
+                                        <input type="number" id="transaction-amount" class="amount-input" step="0.01">
+                                    </div>
+                                </div>
+                                
+                                <div class="analysis-actions">
+                                    <button class="primary-btn" id="create-journal-entry-btn">Create Journal Entry</button>
+                                    <button class="help-btn" id="transaction-help-btn">Need Help? 💡</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="day-summary" id="day-summary" style="display: none;">
+                            <h4>📊 Day Summary</h4>
+                            <div class="summary-content">
+                                <!-- Day summary will be populated -->
+                            </div>
+                            <button class="primary-btn" id="next-day-btn">Continue to Next Day</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Journal Entries Section -->
+            <section id="journal" class="content-section">
+                <div class="section-header">
+                    <h2>📝 General Journal</h2>
+                    <p>Record business transactions with guided assistance</p>
+                </div>
+
+                <div class="journal-workspace">
+                    <div class="journal-entry-builder">
+                        <div class="entry-header">
+                            <h3>Journal Entry Builder</h3>
+                            <div class="entry-info">
+                                <span>Entry #<span id="entry-number">1</span></span>
+                                <span id="entry-date">March 1, 2024</span>
+                            </div>
+                        </div>
+
+                        <div class="t-accounts-preview">
+                            <h4>📊 T-Account Preview</h4>
+                            <div class="t-accounts-container" id="t-accounts-container">
+                                <!-- T-accounts will be displayed here -->
+                            </div>
+                        </div>
+
+                        <div class="journal-entry-form">
+                            <div class="form-header">
+                                <span>Account</span>
+                                <span>Debit</span>
+                                <span>Credit</span>
+                                <span>Actions</span>
+                            </div>
+                            
+                            <div class="entry-lines" id="entry-lines">
+                                <div class="entry-line">
+                                    <select class="account-selector">
+                                        <option value="">Select Account</option>
+                                    </select>
+                                    <input type="number" class="debit-amount" step="0.01" min="0">
+                                    <input type="number" class="credit-amount" step="0.01" min="0">
+                                    <button class="remove-line-btn" type="button">❌</button>
+                                </div>
+                            </div>
+                            
+                            <div class="entry-controls">
+                                <button class="add-line-btn">+ Add Line</button>
+                                <div class="balance-check">
+                                    <span>Balance: </span>
+                                    <span id="entry-balance" class="balance-amount">$0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="entry-description">
+                                <label for="entry-memo">Description/Memo:</label>
+                                <textarea id="entry-memo" placeholder="Describe this transaction..."></textarea>
+                            </div>
+
+                            <div class="entry-actions">
+                                <button class="primary-btn" id="save-entry-btn">Save Entry</button>
+                                <button class="secondary-btn" id="clear-entry-btn">Clear</button>
+                                <button class="help-btn" id="entry-help-btn">Help & Hints</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="journal-history">
+                        <h4>📚 Journal Entry History</h4>
+                        <div class="history-controls">
+                            <input type="search" id="journal-search" placeholder="Search entries...">
+                            <select id="journal-filter">
+                                <option value="all">All Entries</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                            </select>
+                        </div>
+                        <div class="journal-entries-list" id="journal-entries-list">
+                            <!-- Journal entries will be listed here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- General Ledger Section -->
+            <section id="ledger" class="content-section">
+                <div class="section-header">
+                    <h2>📊 General Ledger</h2>
+                    <p>View account balances and transaction details</p>
+                </div>
+
+                <div class="ledger-workspace">
+                    <div class="accounts-sidebar">
+                        <h4>Chart of Accounts</h4>
+                        <div class="account-categories">
+                            <div class="account-category">
+                                <h5>Assets</h5>
+                                <div class="account-list" data-category="assets">
+                                    <!-- Asset accounts will be populated -->
+                                </div>
+                            </div>
+                            <div class="account-category">
+                                <h5>Liabilities</h5>
+                                <div class="account-list" data-category="liabilities">
+                                    <!-- Liability accounts will be populated -->
+                                </div>
+                            </div>
+                            <div class="account-category">
+                                <h5>Equity</h5>
+                                <div class="account-list" data-category="equity">
+                                    <!-- Equity accounts will be populated -->
+                                </div>
+                            </div>
+                            <div class="account-category">
+                                <h5>Revenue</h5>
+                                <div class="account-list" data-category="revenue">
+                                    <!-- Revenue accounts will be populated -->
+                                </div>
+                            </div>
+                            <div class="account-category">
+                                <h5>Expenses</h5>
+                                <div class="account-list" data-category="expenses">
+                                    <!-- Expense accounts will be populated -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ledger-main">
+                        <div class="account-header" id="account-header">
+                            <h3 id="selected-account-name">Select an Account</h3>
+                            <div class="account-balance">
+                                Balance: <span id="account-balance">$0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="t-account-display" id="t-account-display">
+                            <!-- T-account visualization will be displayed here -->
+                        </div>
+
+                        <div class="account-transactions">
+                            <h4>Transaction History</h4>
+                            <div class="transactions-table-container">
+                                <table class="transactions-table" id="account-transactions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th>Reference</th>
+                                            <th>Debit</th>
+                                            <th>Credit</th>
+                                            <th>Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Transaction rows will be populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trial Balance Section -->
+            <section id="trial-balance" class="content-section">
+                <div class="section-header">
+                    <h2>⚖️ Trial Balance</h2>
+                    <p>Verify that debits equal credits and prepare for adjustments</p>
+                </div>
+
+                <div class="trial-balance-workspace">
+                    <div class="trial-balance-controls">
+                        <div class="control-group">
+                            <label for="trial-balance-date">As of Date:</label>
+                            <input type="date" id="trial-balance-date" class="date-input">
+                        </div>
+                        <div class="control-group">
+                            <label for="balance-format">Format:</label>
+                            <select id="balance-format">
+                                <option value="standard">Standard Format</option>
+                                <option value="account-number">By Account Number</option>
+                                <option value="alphabetical">Alphabetical</option>
+                            </select>
+                        </div>
+                        <button class="primary-btn" id="generate-trial-balance-btn">Generate Trial Balance</button>
+                    </div>
+
+                    <div class="trial-balance-display">
+                        <div class="balance-header">
+                            <h3 id="trial-balance-title">Trial Balance</h3>
+                            <p id="trial-balance-subtitle">As of [Date]</p>
+                        </div>
+
+                        <div class="balance-table-container">
+                            <table class="trial-balance-table" id="trial-balance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Account Name</th>
+                                        <th>Account #</th>
+                                        <th>Debit</th>
+                                        <th>Credit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Trial balance rows will be populated -->
+                                </tbody>
+                                <tfoot>
+                                    <tr class="totals-row">
+                                        <td colspan="2"><strong>Totals:</strong></td>
+                                        <td id="total-debits">$0.00</td>
+                                        <td id="total-credits">$0.00</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <div class="balance-verification" id="balance-verification">
+                            <div class="verification-status">
+                                <span id="balance-status">Generate trial balance to check</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="trial-balance-actions">
+                        <button class="secondary-btn" id="export-trial-balance-btn">Export to PDF</button>
+                        <button class="primary-btn" id="proceed-adjustments-btn">Proceed to Adjustments</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Adjustments Section -->
+            <section id="adjustments" class="content-section">
+                <div class="section-header">
+                    <h2>🔧 Adjusting Entries</h2>
+                    <p>Make end-of-period adjustments to ensure accurate financial statements</p>
+                </div>
+
+                <div class="adjustments-workspace">
+                    <div class="adjustment-types">
+                        <h4>Types of Adjusting Entries</h4>
+                        <div class="adjustment-cards">
+                            <div class="adjustment-card" data-type="prepaid">
+                                <div class="adjustment-icon">💳</div>
+                                <h5>Prepaid Expenses</h5>
+                                <p>Expenses paid in advance</p>
+                            </div>
+                            <div class="adjustment-card" data-type="accrued-expense">
+                                <div class="adjustment-icon">💸</div>
+                                <h5>Accrued Expenses</h5>
+                                <p>Expenses incurred but not paid</p>
+                            </div>
+                            <div class="adjustment-card" data-type="accrued-revenue">
+                                <div class="adjustment-icon">💰</div>
+                                <h5>Accrued Revenue</h5>
+                                <p>Revenue earned but not collected</p>
+                            </div>
+                            <div class="adjustment-card" data-type="deferred">
+                                <div class="adjustment-icon">🎯</div>
+                                <h5>Deferred Revenue</h5>
+                                <p>Revenue collected but not earned</p>
+                            </div>
+                            <div class="adjustment-card" data-type="depreciation">
+                                <div class="adjustment-icon">📉</div>
+                                <h5>Depreciation</h5>
+                                <p>Allocating asset costs over time</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adjustment-workshop" id="adjustment-workshop">
+                        <div class="workshop-header">
+                            <h4>Adjusting Entry Workshop</h4>
+                            <p>Identify and record necessary adjustments</p>
+                        </div>
+
+                        <div class="adjustment-scenarios" id="adjustment-scenarios">
+                            <!-- Adjustment scenarios will be populated -->
+                        </div>
+
+                        <div class="adjustment-entry-form" id="adjustment-entry-form" style="display: none;">
+                            <!-- Similar to journal entry form but for adjustments -->
+                        </div>
+                    </div>
+
+                    <div class="adjusted-trial-balance">
+                        <h4>📊 Adjusted Trial Balance</h4>
+                        <div class="adjusted-balance-display" id="adjusted-balance-display">
+                            <!-- Adjusted trial balance will be shown here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Financial Statements Section -->
+            <section id="statements" class="content-section">
+                <div class="section-header">
+                    <h2>📋 Financial Statements</h2>
+                    <p>Prepare the three main financial statements</p>
+                </div>
+
+                <div class="statements-workspace">
+                    <div class="statement-tabs">
+                        <button class="statement-tab active" data-statement="income">Income Statement</button>
+                        <button class="statement-tab" data-statement="balance">Balance Sheet</button>
+                        <button class="statement-tab" data-statement="cash-flow">Statement of Cash Flows</button>
+                    </div>
+
+                    <div class="statement-content">
+                        <!-- Income Statement -->
+                        <div id="income-statement" class="statement-panel active">
+                            <div class="statement-header">
+                                <h3 id="company-name-income">Company Name</h3>
+                                <h4>Income Statement</h4>
+                                <p>For the Month Ended [Date]</p>
+                            </div>
+                            <div class="statement-builder" id="income-statement-builder">
+                                <!-- Income statement builder will be populated -->
+                            </div>
+                        </div>
+
+                        <!-- Balance Sheet -->
+                        <div id="balance-sheet" class="statement-panel">
+                            <div class="statement-header">
+                                <h3 id="company-name-balance">Company Name</h3>
+                                <h4>Balance Sheet</h4>
+                                <p>As of [Date]</p>
+                            </div>
+                            <div class="statement-builder" id="balance-sheet-builder">
+                                <!-- Balance sheet builder will be populated -->
+                            </div>
+                        </div>
+
+                        <!-- Statement of Cash Flows -->
+                        <div id="cash-flow-statement" class="statement-panel">
+                            <div class="statement-header">
+                                <h3 id="company-name-cash">Company Name</h3>
+                                <h4>Statement of Cash Flows</h4>
+                                <p>For the Month Ended [Date]</p>
+                            </div>
+                            <div class="statement-builder" id="cash-flow-builder">
+                                <!-- Cash flow statement builder will be populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="statement-actions">
+                        <button class="secondary-btn" id="export-statements-btn">Export All Statements</button>
+                        <button class="primary-btn" id="complete-cycle-btn">Complete Accounting Cycle</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Review & Analysis Section -->
+            <section id="review" class="content-section">
+                <div class="section-header">
+                    <h2>🎯 Review & Analysis</h2>
+                    <p>Reflect on your learning and analyze business performance</p>
+                </div>
+
+                <div class="review-workspace">
+                    <div class="performance-dashboard">
+                        <h3>📊 Your Performance</h3>
+                        <div class="performance-metrics">
+                            <div class="metric-card">
+                                <div class="metric-value" id="total-transactions">0</div>
+                                <div class="metric-label">Transactions Processed</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="accuracy-percentage">100%</div>
+                                <div class="metric-label">Overall Accuracy</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="completion-time">0</div>
+                                <div class="metric-label">Days to Complete</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="mastery-level">Beginner</div>
+                                <div class="metric-label">Mastery Level</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="learning-reflection">
+                        <h3>🤔 Learning Reflection</h3>
+                        <div class="reflection-questions">
+                            <div class="question-group">
+                                <label>What was the most challenging aspect of the accounting cycle?</label>
+                                <textarea id="challenge-reflection" placeholder="Reflect on your experience..."></textarea>
+                            </div>
+                            <div class="question-group">
+                                <label>What concepts do you feel most confident about now?</label>
+                                <textarea id="confidence-reflection" placeholder="Share your newfound confidence..."></textarea>
+                            </div>
+                            <div class="question-group">
+                                <label>How will this experience help you in future accounting work?</label>
+                                <textarea id="application-reflection" placeholder="Think about practical applications..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="business-analysis">
+                        <h3>📈 Business Performance Analysis</h3>
+                        <div class="analysis-charts">
+                            <canvas id="performance-chart"></canvas>
+                        </div>
+                        <div class="key-insights" id="business-insights">
+                            <!-- Business insights will be generated -->
+                        </div>
+                    </div>
+
+                    <div class="certificate-section">
+                        <h3>🏆 Completion Certificate</h3>
+                        <p>Congratulations on completing the full accounting cycle simulation!</p>
+                        <button class="primary-btn" id="generate-certificate-btn">Generate Certificate</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modal for Help and Tutorials -->
+    <div class="modal" id="help-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="help-title">Help & Tutorial</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="help-content">
+                <!-- Help content will be populated -->
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-btn" id="help-prev-btn">Previous</button>
+                <button class="primary-btn" id="help-next-btn">Next</button>
+                <button class="modal-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Transaction Details -->
+    <div class="modal" id="transaction-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="transaction-title">Transaction Details</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="transaction-content">
+                <!-- Transaction details will be populated -->
+            </div>
+            <div class="modal-footer">
+                <button class="primary-btn modal-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Help Button -->
+    <div class="help-fab" id="help-fab">
+        💡
+    </div>
+
+    <!-- Congratulations Confetti (Hidden) -->
+    <div class="confetti-container" id="confetti-container">
+        <!-- Confetti animation elements -->
+    </div>
+
+    <script src="accounting-script.js"></script>
+</body>
+</html>
